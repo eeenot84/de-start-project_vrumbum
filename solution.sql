@@ -198,6 +198,17 @@ JOIN car_shop.brand AS b ON a.brand_id = b.brand_id
 GROUP BY b.brand_origin
 ORDER BY b.brand_origin;
 
+--Новая версия запроса цена без скидки
+SELECT
+  b.brand_origin,
+  -- Расчёт цены без скидки
+  MAX(ROUND(so.price / (1 - so.discount / 100.0), 2)) AS base_price_max,
+  MIN(ROUND(so.price / (1 - so.discount / 100.0), 2)) AS base_price_min
+FROM car_shop.sale_order AS so
+JOIN car_shop.auto AS a ON so.auto_id = a.auto_id
+JOIN car_shop.brand AS b ON a.brand_id = b.brand_id
+GROUP BY b.brand_origin
+ORDER BY b.brand_origin;
 
 
 ---- Задание 6. Напишите запрос, который покажет количество всех пользователей из США.
